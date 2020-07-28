@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+		crossorigin="anonymous"></link>
+
+</h:head>
+<body>
+
+	<h:inputHidden value="#{telefonoBean.cambiarCodigo()}" />
+	<ui:param name="formId" value="#{param['cedula']}" />
+
+	<h:form name="formulario">
+		<h:inputHidden value="#{telefonoBean.cambiarCodigo()}" />
+
+		<h:dataTable value="#{telefonoBean.findTelefonos()}" var="telefono"
+			class="table" styleClass="table table-striped table-dark"
+			headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
+			<h:column>
+				<f:facet name="header">Numero</f:facet>
+				<h:inputText value="#{telefono.numero}" size="10"
+					rendered="#{telefono.editable}" />
+				<h:outputText value="#{telefono.numero}"
+					rendered="#{not telefono.editable}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Tipo</f:facet>
+				<h:inputText value="#{telefono.tipo}"
+					rendered="#{telefono.editable}">
+
+				</h:inputText>
+				<h:outputText value="#{telefono.tipo}"
+					rendered="#{not telefono.editable}">
+
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Accion</f:facet>
+				<h:commandLink value="Borrar"
+					action="#{telefonoBean.eliminar(telefono)}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Accion</f:facet>
+				<h:commandLink value="Editar"
+					action="#{telefonoBean.edit(telefono)}"
+					rendered="#{not telefono.editable}" />
+				<h:commandLink value="Guardar"
+					action="#{telefonoBean.save(telefono)}"
+					rendered="#{telefono.editable}" />
+			</h:column>
+
+
+		</h:dataTable>
+	</h:form>
+
+</body>
+</html>

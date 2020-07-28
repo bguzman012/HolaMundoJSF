@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15958934753710" configfile="/Repaso/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="272" y="106" id="pf15959053524360" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15959053524361 pf15959053524362" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="clienteJSF.xhtml" x="552" y="41" id="pf15959053524373" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf15959164315170" inlinks="pf15959053524361" path="/clienteJSF.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="telefonoJSF.xhtml" x="548" y="228" id="pf15959053524374" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf15959053524362 pf15959164315170" path="/telefonoJSF.xhtml"/>
+  <links id="pf15959053524361" target="pf15959053524373" source="pf15959053524360" outcome="cliente" redirect="true"/>
+  <links id="pf15959053524362" target="pf15959053524374" source="pf15959053524360" outcome="telefono" redirect="true"/>
+  <links id="pf15959164315170" target="pf15959053524374" source="pf15959053524373" outcome="gestionTelefono" redirect="true"/>
+</pageflow:Pageflow>
