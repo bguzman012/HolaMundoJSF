@@ -13,16 +13,20 @@
 </h:head>
 <body>
 
-	<h:inputHidden value="#{clienteBean.cambiarCodigo()}" />
-	<ui:param name="formId" value="#{param['cedula']}" />
-	<ui:param name="cliente" value="#{clienteBean.buscarCliente()}" />
+	<h:outputText
+		value="#{sessionScope['cliente'].nombre } #{sessionScope['cliente'].cedula }" />
 
+	<h:inputHidden value="#{telefonoBean.cambiarCodigo()}" />
+	
 	<h:form name="formulario">
-		<h:inputHidden value="#{telefonoBean.cambiarCodigo()}" />
 
-		<h:dataTable value="#{telefonoBean.findTelefonos()}" var="telefono"
+		<h:dataTable value="#{telefonoBean.telefonos}" var="telefono"
 			class="table" styleClass="table table-striped table-dark"
 			headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
+
+			<h:column>
+				<f:facet name="header">Id</f:facet>#{telefono.id}
+		</h:column>
 			<h:column>
 				<f:facet name="header">Numero</f:facet>
 				<h:inputText value="#{telefono.numero}" size="10"
@@ -32,14 +36,10 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">Tipo</f:facet>
-				<h:inputText value="#{telefono.tipo}"
-					rendered="#{telefono.editable}">
-
-				</h:inputText>
+				<h:inputText value="#{telefono.tipo}" size="50"
+					rendered="#{telefono.editable}" />
 				<h:outputText value="#{telefono.tipo}"
-					rendered="#{not telefono.editable}">
-
-				</h:outputText>
+					rendered="#{not telefono.editable}" />
 			</h:column>
 			<h:column>
 				<f:facet name="header">Accion</f:facet>
@@ -48,16 +48,37 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">Accion</f:facet>
-				<h:commandLink value="Editar"
-					action="#{telefonoBean.edit(telefono)}"
+				<h:commandLink value="Editar" action="#{telefonoBean.edit(telefono)}"
 					rendered="#{not telefono.editable}" />
-				<h:commandLink value="Guardar"
-					action="#{telefonoBean.save(telefono)}"
+				<h:commandLink value="Guardar" action="#{telefonoBean.save(telefono)}"
 					rendered="#{telefono.editable}" />
 			</h:column>
 
-
 		</h:dataTable>
+	</h:form>
+	
+	<h:form id="mi_form">
+
+		<ul>
+
+			<li>Numero: <h:inputText size="25" required="true" id="nombre"
+					requiredMessage="Ingrese el nombre, por favor"
+					value="#{telefonoBean.numero}">
+				</h:inputText><br></br> <h:message for="nombre" id="msgNombre" style="color:red" />
+			</li>
+
+			<li>Tipo: <h:inputText size="10" required="true" id="cedula"
+					requiredMessage="Ingrese la cedula" value="#{telefonoBean.tipo}">
+					<br></br>
+
+				</h:inputText> <h:message for="cedula" id="msgCedula" style="color:red" />
+			</li>
+
+		</ul>
+
+		<h:commandButton value="Agregar Telefono" type="submit"
+			action="#{telefonoBean.add}" />
+
 	</h:form>
 
 </body>

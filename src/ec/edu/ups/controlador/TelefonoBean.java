@@ -36,10 +36,15 @@ public class TelefonoBean implements Serializable{
 	private ClienteFacade ejbClienteFacade;
 	private Cliente cliente;
 	private List<Telefono> telefonos;
-	
+	private List<Telefono> telefonosCliente;
+	private static HttpSession httpSession;
 	private FaceletContext faceletContext;
 	private String formId;
 	private String cedula;
+	private String numero;
+	private String tipo;
+	
+
 
 	public TelefonoBean() {
 
@@ -47,17 +52,23 @@ public class TelefonoBean implements Serializable{
 
 	@PostConstruct
 	public void init() {
-		System.out.println("Entrar");
+		
+		
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		HttpSession session = request.getSession(false);
+		this.cliente = null;
+		this.cliente = (Cliente) session.getAttribute("cliente");
+		System.out.println("Men" + this.cliente);
+		
+		this.telefonos = ejbTelefonoFacade.findByUsuario(this.cliente);
+		
 	}
 	
 	public void cambiarCodigo() {
-		faceletContext = (FaceletContext) FacesContext.getCurrentInstance().getAttributes()
-				.get(FaceletContext.FACELET_CONTEXT_KEY);
-		formId = (String) faceletContext.getAttribute("formId");
-		System.out.println(formId + "Mija");
-		this.cliente = ejbClienteFacade.find(formId);
-		System.out.println("Soy el cliente chch al fin mmv" + this.cliente);
-		this.telefonos = this.cliente.getTelefonos();
+		
+		
+
+
 	}
 
 	public TelefonoFacade getEjbTelefonoFacade() {
@@ -108,6 +119,14 @@ public class TelefonoBean implements Serializable{
 		this.formId = formId;
 	}
 	
+	public List<Telefono> telefonoCliente(){
+		List<Telefono> telefonos = null;
+		telefonos = this.cliente.getTelefonos();
+		System.out.println(telefonos);
+		return telefonos;
+	}
+
+	
 	public List<Telefono> findTelefonos(){
 		Cliente cli = ejbClienteFacade.find(this.formId);
 		List<Telefono> telefonos = null;
@@ -122,20 +141,28 @@ public class TelefonoBean implements Serializable{
 	}
 	
 	public String save(Telefono t) {
+		t.setCliente(cliente);
 		ejbTelefonoFacade.edit(t);
 		t.setEditable(false);
-		
-		this.cliente = ejbClienteFacade.find(formId);
-		System.out.println("Soy el cliente chch al fin mmv" + cliente);
-		this.telefonos = cliente.getTelefonos();
+
+		this.telefonos = ejbTelefonoFacade.findByUsuario(this.cliente);
 		return null;
 	}
 	
 	public String eliminar(Telefono t) {
+		t.setCliente(cliente);
 		ejbTelefonoFacade.remove(t);
-		this.cliente = ejbClienteFacade.find(formId);
-		System.out.println("Soy el cliente chch al fin mmv" + cliente);
-		this.telefonos = cliente.getTelefonos();
+
+		this.telefonos = ejbTelefonoFacade.findByUsuario(this.cliente);
+		return null;
+		
+	}
+	
+	public String add() {
+		Telefono t = new Telefono(this.numero, this.tipo);
+		t.setCliente(this.cliente);
+		ejbTelefonoFacade.create(t);
+		this.telefonos = ejbTelefonoFacade.findByUsuario(this.cliente);
 		return null;
 		
 	}
@@ -148,5 +175,22 @@ public class TelefonoBean implements Serializable{
 		this.cedula = cedula;
 	}
 
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	
 
 }

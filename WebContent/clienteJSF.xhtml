@@ -64,13 +64,9 @@
 					rendered="#{cliente.editable}" />
 			</h:column>
 			<h:column>
-					<f:facet name="header">Accion</f:facet>
-					<h:outputLink value="telefonoJSF.jsf"
-						styleClass="btn btn-primary">
-						<h:outputText value="Ver Factura" />
-						<f:param name="cedula" value="#{cliente.cedula}" />
-					</h:outputLink>
-				</h:column>
+				<f:facet name="header">Accion</f:facet>
+				<h:commandLink value="Ver Factura" action="#{clienteBean.redirigirFactura(cliente)}" />
+			</h:column>
 
 		</h:dataTable>
 	</h:form>
