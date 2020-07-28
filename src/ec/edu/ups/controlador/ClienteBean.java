@@ -128,6 +128,19 @@ public class ClienteBean implements Serializable{
 		
 	}
 	
+	public void cambiarCodigo() {
+		faceletContext = (FaceletContext) FacesContext.getCurrentInstance().getAttributes()
+				.get(FaceletContext.FACELET_CONTEXT_KEY);
+		formId = (String) faceletContext.getAttribute("formId");
+	}
+	
+	public Cliente buscarCliente() {
+		Cliente cliente = null;
+		String cedula = formId;
+		cliente = ejbClienteFacade.find(cedula);
+		return cliente;
+	}
+	
 	public String add() {
 		Cliente cliente = new Cliente(this.cedula, this.nombre, this.fecha, this.edad, this.direccion);
 		ejbClienteFacade.create(cliente);

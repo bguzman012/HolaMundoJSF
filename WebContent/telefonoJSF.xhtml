@@ -13,8 +13,9 @@
 </h:head>
 <body>
 
-	<h:inputHidden value="#{telefonoBean.cambiarCodigo()}" />
+	<h:inputHidden value="#{clienteBean.cambiarCodigo()}" />
 	<ui:param name="formId" value="#{param['cedula']}" />
+	<ui:param name="cliente" value="#{clienteBean.buscarCliente()}" />
 
 	<h:form name="formulario">
 		<h:inputHidden value="#{telefonoBean.cambiarCodigo()}" />
